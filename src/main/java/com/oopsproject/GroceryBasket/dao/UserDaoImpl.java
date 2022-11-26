@@ -71,8 +71,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void changePassword(User user, String newPassword) {
-
+    public void changePassword(User user) {
+        Session session = sessionFactory.openSession();
+        session.update(user);
+        session.close();
     }
 
 }

@@ -19,5 +19,5 @@ public interface UserDao {
 
     Authorities getUserAuthorities(String emailId);
 
-    void changePassword(User user,String newPassword);
+    void changePassword(User user);
 }

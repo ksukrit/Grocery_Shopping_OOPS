@@ -14,4 +14,10 @@ public interface UserService {
     void addUser(User user);
 
     User getUserById(String userId);
+
+    User getUserByEmailId(String emailId);
+
+    void updatePassword(User user);
+
+
 }

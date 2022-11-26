@@ -22,7 +22,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @RequestMapping("getProductById/{productId}")
+    @RequestMapping("/getProductById/{productId}")
     public Product getProductById(@PathVariable(value = "productId") String productId) {
         return productService.getProductById(productId);
     }
@@ -67,11 +67,6 @@ public class ProductController {
     @RequestMapping("/getProductsList")
     public @ResponseBody List<Product> getProductsListInJson() {
         return productService.getAllProducts();
-    }
-
-    @RequestMapping("/productsListAngular")
-    public String getProducts() {
-        return "productListAngular";
     }
 
 }

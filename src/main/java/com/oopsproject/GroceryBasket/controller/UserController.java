@@ -7,10 +7,7 @@ import com.oopsproject.GroceryBasket.service.CustomerService;
 import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,6 +51,16 @@ public class UserController {
 
 
         customerService.addCustomer(c);
+    }
+
+    @RequestMapping("/getUserId/{emailId}")
+    public String getUserId(@PathVariable(value = "emailId") String emailId){
+        return userService.getUserByEmailId(emailId).getUserId();
+    }
+
+    @RequestMapping("/user/changePassword")
+    public void updatePassword(@RequestBody User user){
+        userService.updatePassword(user);
     }
 
 
