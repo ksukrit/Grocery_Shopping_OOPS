@@ -112,7 +112,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/deleteUser")
+    @RequestMapping("/admin/deleteUser")
     public void deleteUser(){
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userService.deleteUser(userService.getUserByEmailId(user.getUsername()).getUserId());
