@@ -37,6 +37,8 @@ public class CustomerOrder implements Serializable {
     @JoinColumn(name = "shippingAddressId")
     private ShippingAddress shippingAddress;
 
+    private Long orderDate;
+
     private Long deliveryDate;
 
 }

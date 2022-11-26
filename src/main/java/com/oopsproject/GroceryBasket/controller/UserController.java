@@ -100,5 +100,16 @@ public class UserController {
         return String.valueOf(customerService.getCustomerByemailId(user.getUsername()).getWalletBalance());
     }
 
+    @RequestMapping("/addToWallet")
+    public String updateWallet(@RequestParam String amount){
+        double amt = Double.parseDouble(amount);
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user == null) return "";
+        Customer customer = customerService.getCustomerByemailId(user.getUsername());
+        customer.setWalletBalance(customer.getWalletBalance()+amt);
+        customerService.updateCustomer(customer);
+        return "Successfully added " + amount;
+    }
+
 
 }

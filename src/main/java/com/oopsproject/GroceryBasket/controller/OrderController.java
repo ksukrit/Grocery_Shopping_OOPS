@@ -58,8 +58,8 @@ public class OrderController {
         CustomerOrder customerOrder = new CustomerOrder();
 
         Cart cart = cartService.getCartByCartId(cartId);
-        // Update CartId for customerOrder - set CartId
 
+        customerOrder.setOrderDate(System.currentTimeMillis());
         customerOrder.setDeliveryDate(System.currentTimeMillis()+cart.getCartItem().get(0).getProduct().getDeliveryDate()*1000L);
         customerOrder.setCart(cart);
         cart.setTotalPrice(getCartTotal(cart));

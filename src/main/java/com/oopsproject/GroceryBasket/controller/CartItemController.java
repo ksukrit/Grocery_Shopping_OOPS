@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
@@ -65,7 +66,13 @@ public class CartItemController {
         cartItem.setProduct(product);
         cartItem.setPrice(product.getProductPrice() * itemQ);
         cartItem.setCart(cart);
+
         cartItemService.addCartItem(cartItem);
+        try {
+            cartService.validate(cart.getCartId());
+        } catch (InvalidObjectException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @RequestMapping("/cart/removeCartItem/{cartItemId}")

@@ -1,5 +1,6 @@
 package com.oopsproject.GroceryBasket.dao;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.util.List;
 
 import com.oopsproject.GroceryBasket.model.Cart;
@@ -25,10 +26,10 @@ public class CartDaoImpl implements CartDao {
         return cart;
     }
 
-    public Cart validate(String cartId) throws IOException {
+    public Cart validate(String cartId) throws InvalidObjectException {
         Cart cart = getCartByCartId(cartId);
         if (cart == null || cart.getCartItem().size() == 0) {
-            throw new IOException(cartId + "");
+            throw new InvalidObjectException(cartId + "");
         }
         update(cart);
         return cart;
