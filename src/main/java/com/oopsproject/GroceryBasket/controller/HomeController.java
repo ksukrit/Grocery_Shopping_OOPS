@@ -88,25 +88,4 @@ public class HomeController {
         return customerService.getAllCustomers();
     }
 
-
-    @RequestMapping("/customer/create/{name}")
-    public void addCustomer(@PathVariable(value = "name") String name) {
-        Customer c = new Customer();
-        User u = new User();
-        u.setEmailId("ksukrit2001@gmail.com");
-        u.setPassword("test123");
-        c.setUsers(u);
-        c.setFirstName(name);
-        c.setLastName(name+"LastName");
-        c.setCustomerPhone("9022580264");
-        ShippingAddress b = new ShippingAddress();
-        b.setAddress("N");
-        b.setCity("Mumbai");
-        b.setState("Ind");
-        b.setCountry("India");
-        b.setZipcode("400058");
-
-        c.setShippingAddress(b);
-        customerService.addCustomer(c);
-    }
 }
