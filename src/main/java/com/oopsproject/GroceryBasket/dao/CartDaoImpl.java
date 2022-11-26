@@ -1,8 +1,9 @@
 package com.oopsproject.GroceryBasket.dao;
 import java.io.IOException;
+import java.util.List;
 
 import com.oopsproject.GroceryBasket.model.Cart;
-import com.oopsproject.GroceryBasket.service.CustomerOrderService;
+import com.oopsproject.GroceryBasket.model.CartItem;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,6 @@ public class CartDaoImpl implements CartDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private CustomerOrderService customerOrderService;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public Cart getCartByCartId(String CartId) {
         Session session = sessionFactory.openSession();
@@ -46,10 +37,20 @@ public class CartDaoImpl implements CartDao {
         return cart;
     }
 
+    private double getCartTotal(Cart cart){
+        double grandTotal=0;
+        List<CartItem> cartItems = cart.getCartItem();
+
+        for(CartItem item: cartItems){
+            grandTotal += item.getPrice();
+        }
+        return grandTotal;
+    }
+
     public void update(Cart cart) {
 
-        String cartId = cart.getCartId();
-        double grandTotal = customerOrderService.getCustomerOrderGrandTotal(cartId);
+
+        double grandTotal = getCartTotal(cart);
         cart.setTotalPrice(grandTotal);
 
         Session session = sessionFactory.openSession();

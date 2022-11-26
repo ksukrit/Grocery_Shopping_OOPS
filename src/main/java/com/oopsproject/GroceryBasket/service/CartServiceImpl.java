@@ -11,14 +11,6 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartDao cartDao;
 
-    public CartDao getCartDao() {
-        return cartDao;
-    }
-
-    public void setCartDao(CartDao cartDao) {
-        this.cartDao = cartDao;
-    }
-
     public Cart getCartByCartId(String CartId) {
 
         return cartDao.getCartByCartId(CartId);

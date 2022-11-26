@@ -2,6 +2,7 @@ package com.oopsproject.GroceryBasket.service;
 
 import java.util.List;
 
+import com.oopsproject.GroceryBasket.dao.CartDao;
 import com.oopsproject.GroceryBasket.dao.CustomerOrderDao;
 import com.oopsproject.GroceryBasket.model.Cart;
 import com.oopsproject.GroceryBasket.model.CartItem;
@@ -17,7 +18,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
     private CustomerOrderDao customerOrderDao;
 
     @Autowired
-    private CartService cartService;
+    private CartDao cartDao;
 
     public void addCustomerOrder(CustomerOrder customerOrder) {
         customerOrderDao.addCustomerOrder(customerOrder);
@@ -25,7 +26,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
     public double getCustomerOrderGrandTotal(String cartId) {
         double grandTotal=0;
-        Cart cart = cartService.getCartByCartId(cartId);
+        Cart cart = cartDao.getCartByCartId(cartId);
         List<CartItem> cartItems = cart.getCartItem();
 
         for(CartItem item: cartItems){
