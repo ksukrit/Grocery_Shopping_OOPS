@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -39,13 +41,22 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
     public List<CustomerOrder> getCustomerOrderByCustomerId(String customerId) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(CustomerOrder.class);
-        return criteria.add(Restrictions.eq("customer.customerId",customerId)).list();
+        List<CustomerOrder> customerOrderList = criteria.add(Restrictions.eq("customer.customerId",customerId)).list();
+        Set<CustomerOrder> s= new HashSet<>();
+        s.addAll(customerOrderList);
+        List<CustomerOrder> c = new ArrayList<>();
+        c.addAll(s);
+        return c;
     }
 
     @Override
     public List<CustomerOrder> getAllOrders() {
         Session session = sessionFactory.openSession();
         List<CustomerOrder> customerOrderList = session.createCriteria(CustomerOrder.class).list();
-        return customerOrderList;
+        Set<CustomerOrder> s= new HashSet<>();
+        s.addAll(customerOrderList);
+        List<CustomerOrder> c = new ArrayList<>();
+        c.addAll(s);
+        return c;
     }
 }
