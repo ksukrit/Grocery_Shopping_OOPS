@@ -2,19 +2,13 @@ package com.oopsproject.GroceryBasket.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "customer")
@@ -47,6 +41,7 @@ public class Customer implements Serializable {
     @JsonIgnore
     private Cart cart;
 
+    @Column(columnDefinition = "float8 default 1000")
     private double walletBalance;
 
 

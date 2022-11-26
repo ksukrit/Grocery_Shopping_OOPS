@@ -51,7 +51,9 @@ public class OrderController {
         customerOrder.setCart(cart);
 
         Customer customer = cart.getCustomer();
-
+        if(cart.getTotalPrice() > customer.getWalletBalance()){
+            return "Insufficient Balance";
+        }
         customerOrder.setCustomer(customer);
         customerOrder.setShippingAddress(customer.getShippingAddress());
 
@@ -61,6 +63,7 @@ public class OrderController {
         Cart c = new Cart();
         customer.setCart(c);
         c.setCustomer(customer);
+        customer.setWalletBalance(customer.getWalletBalance() - cart.getTotalPrice());
 
         customerService.updateCustomer(customer);
 
