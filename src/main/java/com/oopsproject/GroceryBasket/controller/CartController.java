@@ -1,6 +1,7 @@
 package com.oopsproject.GroceryBasket.controller;
 
 import com.oopsproject.GroceryBasket.model.Cart;
+import com.oopsproject.GroceryBasket.model.CartItem;
 import com.oopsproject.GroceryBasket.model.Customer;
 import com.oopsproject.GroceryBasket.model.User;
 import com.oopsproject.GroceryBasket.service.CartService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class CartController {
@@ -29,6 +32,25 @@ public class CartController {
         Customer customer = customerService.getCustomerByemailId(emailId);
         model.addAttribute("cartId", customer.getCart().getCartId());
         return "cart";
+    }
+
+    private double getCartTotal(Cart cart){
+        double grandTotal=0;
+        List<CartItem> cartItems = cart.getCartItem();
+
+        for(CartItem item: cartItems){
+            grandTotal += item.getPrice();
+        }
+        return grandTotal;
+    }
+    @RequestMapping("/cart/getUserCart")
+    public Cart getUserCart(){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailId = user.getUsername();
+        Customer customer = customerService.getCustomerByemailId(emailId);
+        Cart c = customer.getCart();
+        c.setTotalPrice(getCartTotal(c));
+        return customer.getCart();
     }
 
     @RequestMapping("/cart/getCart/{cartId}")

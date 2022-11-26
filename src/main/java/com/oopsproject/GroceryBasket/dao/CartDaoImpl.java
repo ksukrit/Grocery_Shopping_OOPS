@@ -21,11 +21,8 @@ public class CartDaoImpl implements CartDao {
     public Cart getCartByCartId(String CartId) {
         Session session = sessionFactory.openSession();
         Cart cart = (Cart) session.get(Cart.class, CartId);
-        // System.out.println(cart.getCartId() + " " + cart.getCartItem());
-        System.out.println(cart);
         session.close();
         return cart;
-
     }
 
     public Cart validate(String cartId) throws IOException {
@@ -48,7 +45,6 @@ public class CartDaoImpl implements CartDao {
     }
 
     public void update(Cart cart) {
-
 
         double grandTotal = getCartTotal(cart);
         cart.setTotalPrice(grandTotal);
