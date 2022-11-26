@@ -62,7 +62,7 @@ public class OrderController {
         customerOrder.setOrderDate(System.currentTimeMillis());
         customerOrder.setDeliveryDate(System.currentTimeMillis()+cart.getCartItem().get(0).getProduct().getDeliveryDate()*1000L);
         customerOrder.setCart(cart);
-        cart.setTotalPrice(getCartTotal(cart));
+
         Customer customer = cart.getCustomer();
         if(cart.getTotalPrice() > customer.getWalletBalance()){
             return "Insufficient Balance";
@@ -89,8 +89,13 @@ public class OrderController {
         return customerOrder;
     }
 
-    @RequestMapping("/order/user/{userId}")
-    public List<CustomerOrder> getOrdersByUserId(@PathVariable("userId") String userId){
-        return new ArrayList<>();
+    @RequestMapping("/order/user/{customerId}")
+    public List<CustomerOrder> getOrdersByUserId(@PathVariable("customerId") String customerId){
+        return customerOrderService.getCustomerOrderByCustomerId(customerId);
+    }
+
+    @RequestMapping("/order/list/all")
+    public List<CustomerOrder> getAllOrders(){
+        return customerOrderService.getAllOrders();
     }
 }

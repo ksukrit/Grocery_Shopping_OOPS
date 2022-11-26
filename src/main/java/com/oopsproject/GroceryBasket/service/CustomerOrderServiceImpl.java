@@ -40,4 +40,14 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
         return customerOrderDao.getCustomerOrderById(orderId);
     }
 
+    @Override
+    public List<CustomerOrder> getAllOrders() {
+        return customerOrderDao.getAllOrders();
+    }
+
+    @Override
+    public List<CustomerOrder> getCustomerOrderByCustomerId(String customerId) {
+        return customerOrderDao.getCustomerOrderByCustomerId(customerId);
+    }
+
 }
