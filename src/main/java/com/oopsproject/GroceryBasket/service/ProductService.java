@@ -6,7 +6,8 @@ import com.oopsproject.GroceryBasket.model.Product;
 
 public interface ProductService {
 
-    public List<Product> getAllProducts();
+    List<Product> getAllProducts();
+    List<Product> getProductsByName(String name);
 
     Product getProductById(String productId);
 
@@ -15,4 +16,8 @@ public interface ProductService {
     void addProduct(Product product);
 
     void editProduct(Product product);
+
+    List<Product> getProductsByCategory(String cat);
+
+    List<Product> getFeaturedProducts();
 }

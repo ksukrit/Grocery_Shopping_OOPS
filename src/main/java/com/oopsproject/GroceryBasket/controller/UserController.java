@@ -6,6 +6,7 @@ import com.oopsproject.GroceryBasket.model.User;
 import com.oopsproject.GroceryBasket.service.CustomerService;
 import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,9 +54,17 @@ public class UserController {
         customerService.addCustomer(c);
     }
 
+    // Returns the user id for a given email id
     @RequestMapping("/getUserId/{emailId}")
     public String getUserId(@PathVariable(value = "emailId") String emailId){
         return userService.getUserByEmailId(emailId).getUserId();
+    }
+
+    // Returns the user id of the currently logged in user
+    @RequestMapping("/getUserId")
+    public String getUserId(){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userService.getUserByEmailId(user.getUsername()).getUserId();
     }
 
     @RequestMapping("/user/changePassword")

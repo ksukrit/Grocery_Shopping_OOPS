@@ -14,17 +14,14 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
 
-    public ProductDao getProductDao() {
-        return productDao;
-    }
-
-    public void setProductDao(ProductDao productDao) {
-        this.productDao = productDao;
-    }
-
     @Transactional
     public List<Product> getAllProducts() {
         return productDao.getAllProducts();
+    }
+
+    @Override
+    public List<Product> getProductsByName(String name) {
+        return productDao.getProductByName(name);
     }
 
 
@@ -43,6 +40,16 @@ public class ProductServiceImpl implements ProductService {
 
     public void editProduct(Product product){
         productDao.editProduct(product);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String cat) {
+        return productDao.getProductByCategory(cat);
+    }
+
+    @Override
+    public List<Product> getFeaturedProducts() {
+        return productDao.getFeaturedProducts();
     }
 
 }

@@ -3,8 +3,11 @@ package com.oopsproject.GroceryBasket.dao;
 import java.util.List;
 
 import com.oopsproject.GroceryBasket.model.Product;
+import com.oopsproject.GroceryBasket.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +47,15 @@ public class ProductDaoImpl implements ProductDao {
         return products;
     }
 
+    @Override
+    public List<Product> getProductByName(String name) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Product.class);
+        List<Product> products = criteria.add(Restrictions.like("productName", name)).list();
+        session.close();
+        return products;
+    }
+
     public Product getProductById(String productId) {
 
         // Reading the records from the table
@@ -64,15 +76,37 @@ public class ProductDaoImpl implements ProductDao {
 
     public void addProduct(Product product) {
         Session session = sessionFactory.openSession();
+        product.setDeliveryDate(172800L);
+        product.setFeatured(product.getPromo() > 0);
         session.save(product);
+
+        session.flush();
         session.close();
     }
 
     public void editProduct(Product product) {
         Session session = sessionFactory.openSession();
-        session.update(product);
+        session.saveOrUpdate(product);
         session.flush();
         session.close();
+    }
+
+    @Override
+    public List<Product> getProductByCategory(String cat) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Product.class);
+        List<Product> products = criteria.add(Restrictions.like("productCategory", cat)).list();
+        session.close();
+        return products;
+    }
+
+    @Override
+    public List<Product> getFeaturedProducts() {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Product.class);
+        List<Product> products = criteria.add(Restrictions.eq("isFeatured", true)).list();
+        session.close();
+        return products;
     }
 
 }

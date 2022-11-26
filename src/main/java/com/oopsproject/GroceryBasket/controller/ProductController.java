@@ -27,10 +27,25 @@ public class ProductController {
         return productService.getProductById(productId);
     }
 
+    // Search function
+    @RequestMapping("/getProductListByName")
+    public List<Product> getProductsByName(@RequestParam String name){
+        return productService.getProductsByName(name);
+    }
+
+    @RequestMapping("/getProductListByCategory")
+    public List<Product> getProductsByCategory(@RequestParam String cat) {
+        return productService.getProductsByCategory(cat);
+    }
+
+    @RequestMapping("/getFeaturedProducts")
+    public List<Product> getFeaturedProducts(){
+        return productService.getFeaturedProducts();
+    }
+
     @RequestMapping("/admin/delete/{productId}")
     public String deleteProduct(@PathVariable(value = "productId") String productId) {
         productService.deleteProduct(productId);
-        // http://localhost:8080/shoppingCart/getAllProducts
         return "redirect:/getAllProducts";
     }
 
@@ -59,14 +74,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/admin/product/editProduct", method = RequestMethod.POST)
-    public String editProduct(@ModelAttribute(value = "editProductObj") Product product) {
+    public String editProduct(@RequestBody Product product) {
         productService.editProduct(product);
         return "redirect:/getAllProducts";
-    }
-
-    @RequestMapping("/getProductsList")
-    public @ResponseBody List<Product> getProductsListInJson() {
-        return productService.getAllProducts();
     }
 
 }

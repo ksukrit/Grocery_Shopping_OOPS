@@ -22,10 +22,10 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @RequestMapping("cart/getCartById")
+    @RequestMapping("/cart/getCartById")
     public String getCartId(Model model){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String emailId = user.getEmailId();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailId = user.getUsername();
         Customer customer = customerService.getCustomerByemailId(emailId);
         model.addAttribute("cartId", customer.getCart().getCartId());
         return "cart";

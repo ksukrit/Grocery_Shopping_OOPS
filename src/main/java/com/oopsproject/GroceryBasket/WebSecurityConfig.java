@@ -19,7 +19,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/home","/login","/register","/registerPage").permitAll()
+                        .antMatchers("/", "/home","/login","/register","/registerPage","/about","/error").permitAll()
                         .antMatchers("/customer/*").permitAll()
                         .antMatchers("/user/*").hasAnyRole("ADMIN","USER")
                         .antMatchers("/admin/*").hasAnyRole("ADMIN")
@@ -29,20 +29,14 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout.permitAll())
+                .csrf().disable();
 
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-
         return new CustomUserDetailsService();
     }
 }

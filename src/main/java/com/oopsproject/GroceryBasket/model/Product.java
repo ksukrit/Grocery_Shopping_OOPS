@@ -17,6 +17,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -30,8 +31,13 @@ public class Product implements Serializable {
 
     @Id
     @Column(name = "Id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String productId;
+
+    @NotNull(message = "Product Name is mandatory")
+    @Column(name = "name")
+    private String productName;
 
     @Column(name="category")
     private String productCategory;
@@ -42,14 +48,15 @@ public class Product implements Serializable {
     @Column(name = "manufacturer")
     private String productManufacturer;
 
-    @NotNull(message = "Product Name is mandatory")
-    @Column(name = "name")
-    private String productName;
-
     @NotNull(message="Please provide some price")
-    @Min(value = 100, message = "Minimum value should be greater than 100")
     @Column(name = "price")
     private double productPrice;
+
+    @Column(name="offer")
+    private double promo;
+
+    @Column(name="isFeatured")
+    private boolean isFeatured;
 
     @Column(name = "unit")
     private Long unitStock;
