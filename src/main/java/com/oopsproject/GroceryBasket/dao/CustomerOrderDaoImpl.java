@@ -42,10 +42,8 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(CustomerOrder.class);
         List<CustomerOrder> customerOrderList = criteria.add(Restrictions.eq("customer.customerId",customerId)).list();
-        Set<CustomerOrder> s= new HashSet<>();
-        s.addAll(customerOrderList);
-        List<CustomerOrder> c = new ArrayList<>();
-        c.addAll(s);
+        Set<CustomerOrder> s = new HashSet<>(customerOrderList);
+        List<CustomerOrder> c = new ArrayList<>(s);
         return c;
     }
 
@@ -53,10 +51,8 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
     public List<CustomerOrder> getAllOrders() {
         Session session = sessionFactory.openSession();
         List<CustomerOrder> customerOrderList = session.createCriteria(CustomerOrder.class).list();
-        Set<CustomerOrder> s= new HashSet<>();
-        s.addAll(customerOrderList);
-        List<CustomerOrder> c = new ArrayList<>();
-        c.addAll(s);
+        Set<CustomerOrder> s = new HashSet<>(customerOrderList);
+        List<CustomerOrder> c = new ArrayList<>(s);
         return c;
     }
 }

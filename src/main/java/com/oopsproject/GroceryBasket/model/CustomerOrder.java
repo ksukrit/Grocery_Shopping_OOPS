@@ -1,21 +1,19 @@
 package com.oopsproject.GroceryBasket.model;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "customerorder")
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class CustomerOrder implements Serializable {
 
     private static final long serialVersionUID = -6571020025726257848L;
@@ -41,4 +39,16 @@ public class CustomerOrder implements Serializable {
 
     private Long deliveryDate;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        CustomerOrder that = (CustomerOrder) o;
+        return customerOrderId != null && Objects.equals(customerOrderId, that.customerOrderId);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
