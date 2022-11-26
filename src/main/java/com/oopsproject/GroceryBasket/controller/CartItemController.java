@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class CartItemController {
 
     @RequestMapping("/cart/add/{productId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void addCartItem(@PathVariable(value = "productId") String productId) {
+    public void addCartItem(@PathVariable(value = "productId") String productId,@RequestParam(required = false,value = "quantity") String quantity) {
         org.springframework.security.core.userdetails.User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String emailId = user.getUsername();
         System.out.println(emailId);
@@ -47,20 +44,26 @@ public class CartItemController {
         Cart cart = customer.getCart();
         List<CartItem> cartItems = cart.getCartItem();
         Product product = productService.getProductById(productId);
+        int itemQ;
+        if(quantity == null){
+            itemQ = 1;
+        }else{
+            itemQ = Integer.parseInt(quantity);
+        }
         System.out.println(product);
         for (int i = 0; i < cartItems.size(); i++) {
             CartItem cartItem = cartItems.get(i);
             if (product.getProductId().equals(cartItem.getProduct().getProductId())) {
-                cartItem.setQuality(cartItem.getQuality() + 1);
+                cartItem.setQuality(cartItem.getQuality() + itemQ);
                 cartItem.setPrice(cartItem.getQuality() * cartItem.getProduct().getProductPrice());
                 cartItemService.addCartItem(cartItem);
                 return;
             }
         }
         CartItem cartItem = new CartItem();
-        cartItem.setQuality(1);
+        cartItem.setQuality(itemQ);
         cartItem.setProduct(product);
-        cartItem.setPrice(product.getProductPrice() * 1);
+        cartItem.setPrice(product.getProductPrice() * itemQ);
         cartItem.setCart(cart);
         cartItemService.addCartItem(cartItem);
     }
