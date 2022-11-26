@@ -85,7 +85,7 @@ public class UserController {
 
     @RequestMapping("/admin/upgradeUser/{emailId}")
     public String upgradeUser(@PathVariable(value="emailId") String emailId,@RequestParam String type){
-        if(!type.equals("ADMIN") || !type.equals("USER") || !type.equals("MANAGER")){
+        if(!(type.equals("ADMIN") || type.equals("USER") || type.equals("MANAGER"))){
             return "Invalid type";
         }
         userService.updateAuthority(emailId,type);
