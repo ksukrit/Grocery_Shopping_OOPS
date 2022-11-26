@@ -3,6 +3,7 @@ package com.oopsproject.GroceryBasket.controller;
 import com.oopsproject.GroceryBasket.model.*;
 import com.oopsproject.GroceryBasket.service.CartItemService;
 import com.oopsproject.GroceryBasket.service.CustomerService;
+import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,9 @@ public class HomeController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private UserService userService;
+
 
     @RequestMapping({"/","index"})
     public String home(){
@@ -36,16 +40,19 @@ public class HomeController {
         return "aboutUs";
     }
 
-
-
     @RequestMapping("/user/list")
-    public List<Customer> getUserList(){
+    public List<User> getUserList(){
+        return userService.getAllUsers();
+    }
+
+    @RequestMapping("/customer/list")
+    public List<Customer> getCustomerList(){
         return customerService.getAllCustomers();
     }
 
 
-    @RequestMapping("/user/create/{name}")
-    public void addUser(@PathVariable(value = "name") String name) {
+    @RequestMapping("/customer/create/{name}")
+    public void addCustomer(@PathVariable(value = "name") String name) {
         Customer c = new Customer();
         User u = new User();
         u.setEmailId("ksukrit2001@gmail.com");

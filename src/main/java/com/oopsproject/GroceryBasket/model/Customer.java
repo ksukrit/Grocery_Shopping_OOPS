@@ -38,12 +38,12 @@ public class Customer implements Serializable {
     private ShippingAddress shippingAddress;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userid")
     @JsonIgnore
     private User users;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cartId")
+    @JoinColumn(name = "cartid")
     @JsonIgnore
     private Cart cart;
 

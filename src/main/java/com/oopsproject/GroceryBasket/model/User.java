@@ -1,5 +1,6 @@
 package com.oopsproject.GroceryBasket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,13 +22,13 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-
     private String userId;
     private String emailId;
     private String password;
     private boolean enabled;
 
     @OneToOne(mappedBy = "users")
+    @JsonIgnore
     private Customer customer;
 
 }

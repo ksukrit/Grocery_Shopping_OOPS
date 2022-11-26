@@ -17,9 +17,9 @@ public class UserDaoImpl implements UserDao {
 
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
-        //List<Product> products = session.createQuery("from Product").list();
+        // TODO: Change this to non deprecated library
         List<User> users=	 session.createCriteria(User.class).list();
-        System.out.println(users);
+
         session.close();
         return users;
     }
