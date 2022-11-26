@@ -50,7 +50,7 @@ public class CartController {
         Customer customer = customerService.getCustomerByemailId(emailId);
         Cart c = customer.getCart();
         c.setTotalPrice(getCartTotal(c));
-        return customer.getCart();
+        return c;
     }
 
     @RequestMapping("/cart/getCart/{cartId}")

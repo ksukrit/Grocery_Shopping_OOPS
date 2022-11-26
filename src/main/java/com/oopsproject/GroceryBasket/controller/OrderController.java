@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class OrderController {
 
@@ -39,6 +42,16 @@ public class OrderController {
         return "WIP";
     }
 
+    private double getCartTotal(Cart cart){
+        double grandTotal=0;
+        List<CartItem> cartItems = cart.getCartItem();
+
+        for(CartItem item: cartItems){
+            grandTotal += item.getPrice();
+        }
+        return grandTotal;
+    }
+
     @RequestMapping("/order/{cartId}")
     public String createOrder(@PathVariable("cartId") String cartId) {
 
@@ -49,7 +62,7 @@ public class OrderController {
 
         customerOrder.setDeliveryDate(System.currentTimeMillis()+cart.getCartItem().get(0).getProduct().getDeliveryDate()*1000L);
         customerOrder.setCart(cart);
-
+        cart.setTotalPrice(getCartTotal(cart));
         Customer customer = cart.getCustomer();
         if(cart.getTotalPrice() > customer.getWalletBalance()){
             return "Insufficient Balance";
@@ -74,5 +87,10 @@ public class OrderController {
     public CustomerOrder getOrderDetails(@PathVariable("orderId") String orderId){
         CustomerOrder customerOrder = customerOrderService.getCustomerOrderById(orderId);
         return customerOrder;
+    }
+
+    @RequestMapping("/order/user/{userId}")
+    public List<CustomerOrder> getOrdersByUserId(@PathVariable("userId") String userId){
+        return new ArrayList<>();
     }
 }
