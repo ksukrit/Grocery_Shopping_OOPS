@@ -7,4 +7,6 @@ public interface CustomerOrderService {
 
     void addCustomerOrder(CustomerOrder customerOrder);
     double getCustomerOrderGrandTotal(String cartId);
+
+    CustomerOrder getCustomerOrderById(String orderId);
 }

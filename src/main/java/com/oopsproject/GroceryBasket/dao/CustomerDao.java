@@ -12,4 +12,5 @@ public interface CustomerDao {
 
     Customer getCustomerByemailId(String emailId);
 
+    void updateCustomer(Customer customer);
 }

@@ -33,4 +33,9 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.getCustomerByemailId(emailId);
     }
 
+    @Override
+    public void updateCustomer(Customer customer) {
+         customerDao.updateCustomer(customer);
+    }
+
 }

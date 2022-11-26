@@ -35,4 +35,9 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
         return grandTotal;
     }
 
+    @Override
+    public CustomerOrder getCustomerOrderById(String orderId) {
+        return customerOrderDao.getCustomerOrderById(orderId);
+    }
+
 }

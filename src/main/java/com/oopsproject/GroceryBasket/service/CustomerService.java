@@ -12,4 +12,6 @@ public interface CustomerService {
 
     Customer getCustomerByemailId(String emailId);
 
+    void updateCustomer(Customer customer);
+
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 @Transactional
 public class CustomerOrderDaoImpl implements CustomerOrderDao {
@@ -19,6 +22,18 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
         session.saveOrUpdate(customerOrder);
         session.flush();
         session.close();
+    }
+
+    @Override
+    public CustomerOrder getCustomerOrderById(String orderId) {
+        Session session = sessionFactory.openSession();
+        CustomerOrder c = session.get(CustomerOrder.class,orderId);
+        session.close();
+        return c;
+    }
+
+    public List<CustomerOrder> getCustomerOrderByUserId(String customerId){
+        return new ArrayList<>();
     }
 
 }
