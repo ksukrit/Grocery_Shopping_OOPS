@@ -1,13 +1,7 @@
 package com.oopsproject.GroceryBasket.controller;
 
-import com.oopsproject.GroceryBasket.model.Cart;
-import com.oopsproject.GroceryBasket.model.CartItem;
-import com.oopsproject.GroceryBasket.model.Customer;
-import com.oopsproject.GroceryBasket.model.CustomerOrder;
-import com.oopsproject.GroceryBasket.service.CartItemService;
-import com.oopsproject.GroceryBasket.service.CartService;
-import com.oopsproject.GroceryBasket.service.CustomerOrderService;
-import com.oopsproject.GroceryBasket.service.CustomerService;
+import com.oopsproject.GroceryBasket.model.*;
+import com.oopsproject.GroceryBasket.service.*;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +22,9 @@ public class OrderController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private ProductService productService;
 
     @RequestMapping("/buyNow/{productId}")
     public String buyNow(@PathVariable("productId") String productId){
@@ -70,6 +67,21 @@ public class OrderController {
         customerOrder.setCustomer(customer);
         customerOrder.setShippingAddress(customer.getShippingAddress());
 
+        // Stock update
+        List<Product> updatedProduct = new ArrayList<>();
+
+        for(CartItem ci : cart.getCartItem()){
+            if(ci.getQuality() > ci.getProduct().getUnitStock()){
+                return "Insufficient product quantity";
+            }else{
+                ci.getProduct().setUnitStock(ci.getProduct().getUnitStock() - ci.getQuality());
+                updatedProduct.add(ci.getProduct());
+            }
+        }
+
+        for(Product p : updatedProduct){
+            productService.editProduct(p);
+        }
 
         customerOrderService.addCustomerOrder(customerOrder);
 
