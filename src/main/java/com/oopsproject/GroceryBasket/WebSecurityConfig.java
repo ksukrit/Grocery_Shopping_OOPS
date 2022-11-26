@@ -22,6 +22,7 @@ public class WebSecurityConfig {
                         .antMatchers("/", "/home","/login","/register","/registerPage").permitAll()
                         .antMatchers("/customer/*").permitAll()
                         .antMatchers("/user/*").hasAnyRole("ADMIN","USER")
+                        .antMatchers("/admin/*").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
