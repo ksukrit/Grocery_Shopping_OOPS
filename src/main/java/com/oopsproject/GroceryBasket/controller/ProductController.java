@@ -43,13 +43,13 @@ public class ProductController {
         return productService.getFeaturedProducts();
     }
 
-    @RequestMapping("/admin/delete/{productId}")
+    @RequestMapping("/manager/delete/{productId}")
     public String deleteProduct(@PathVariable(value = "productId") String productId) {
         productService.deleteProduct(productId);
         return "redirect:/getAllProducts";
     }
 
-    @RequestMapping(value = "/admin/product/addProduct", method = RequestMethod.GET)
+    @RequestMapping(value = "/manager/product/addProduct", method = RequestMethod.GET)
     public String getProductForm(Model model) {
         Product product = new Product();
         // New Arrivals
@@ -59,7 +59,7 @@ public class ProductController {
         return "addProduct";
     }
 
-    @RequestMapping(value = "/admin/product/addProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/manager/product/addProduct", method = RequestMethod.POST)
     public String addProduct(@Valid @ModelAttribute(value = "productFormObj") Product product, BindingResult result) {
         if (result.hasErrors())
             return "addProduct";
@@ -67,13 +67,13 @@ public class ProductController {
         return "redirect:/getAllProducts";
     }
 
-    @RequestMapping(value = "/admin/product/editProduct/{productId}")
+    @RequestMapping(value = "/manager/product/editProduct/{productId}")
     public ModelAndView getEditForm(@PathVariable(value = "productId") String productId) {
         Product product = productService.getProductById(productId);
         return new ModelAndView("editProduct", "editProductObj", product);
     }
 
-    @RequestMapping(value = "/admin/product/editProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/manager/product/editProduct", method = RequestMethod.POST)
     public String editProduct(@RequestBody Product product) {
         productService.editProduct(product);
         return "redirect:/getAllProducts";
