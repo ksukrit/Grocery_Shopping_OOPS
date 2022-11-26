@@ -1,6 +1,7 @@
 package com.oopsproject.GroceryBasket.controller;
 
 import com.oopsproject.GroceryBasket.model.Cart;
+import com.oopsproject.GroceryBasket.model.CartItem;
 import com.oopsproject.GroceryBasket.model.Customer;
 import com.oopsproject.GroceryBasket.model.CustomerOrder;
 import com.oopsproject.GroceryBasket.service.CartItemService;
@@ -28,7 +29,11 @@ public class OrderController {
     @RequestMapping("/buyNow/{productId}")
     public String buyNow(@PathVariable("productId") String productId){
         CustomerOrder customerOrder = new CustomerOrder();
-
+        Cart c = new Cart();
+        CartItem ci = new CartItem();
+        ci.setCart(c);
+//        ci.setProduct();
+//        c.setCartItem();
         // Make new cart with just single product
         // TODO: Work on this
         return "WIP";
@@ -58,7 +63,6 @@ public class OrderController {
         c.setCustomer(customer);
 
         customerService.updateCustomer(customer);
-        // Empty cart after placing order
 
         return "Ordered Successfully " + customerOrder.getCustomerOrderId();
     }
