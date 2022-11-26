@@ -45,9 +45,9 @@ public class CartItemController {
         Customer customer = customerService.getCustomerByemailId(emailId);
         System.out.println("Customer : " + customer.getUsers().getEmailId());
         Cart cart = customer.getCart();
-        System.out.println(cart);
         List<CartItem> cartItems = cart.getCartItem();
         Product product = productService.getProductById(productId);
+        System.out.println(product);
         for (int i = 0; i < cartItems.size(); i++) {
             CartItem cartItem = cartItems.get(i);
             if (product.getProductId().equals(cartItem.getProduct().getProductId())) {
