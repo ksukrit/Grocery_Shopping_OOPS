@@ -39,8 +39,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(User user) {
-        userDao.changePassword(user);
+    public void updatePassword(String username, String newPassword) {
+        User u = userDao.getUserByEmailId(username);
+        u.setPassword(newPassword);
+        userDao.changePassword(u);
+    }
+
+
+    @Override
+    public String getAuthById(String userId) {
+        User u = userDao.getUserById(userId);
+        if(u == null){
+            return "Error getting Authority for user id " + userId;
+        }
+
+        return userDao.getUserAuthorities(u.getEmailId()).getAuthorities();
+    }
+
+    @Override
+    public String getAuthByEmailId(String emailId) {
+        return userDao.getUserAuthorities(emailId).getAuthorities();
+    }
+
+    @Override
+    public void updateAuthority(String emailId, String type) {
+        userDao.updateAuthority(emailId,type);
     }
 
 

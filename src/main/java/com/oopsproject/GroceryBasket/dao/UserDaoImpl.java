@@ -58,6 +58,7 @@ public class UserDaoImpl implements UserDao {
         Criteria criteria = session.createCriteria(User.class);
         User user = (User) criteria.add(Restrictions.eq("emailId", emailId))
                 .uniqueResult();
+        session.close();
         return user;
     }
 
@@ -67,6 +68,7 @@ public class UserDaoImpl implements UserDao {
         Criteria criteria = session.createCriteria(Authorities.class);
         Authorities authorities = (Authorities) criteria.add(Restrictions.eq("emailId", emailId))
                 .uniqueResult();
+        session.close();
         return authorities;
     }
 
@@ -74,6 +76,18 @@ public class UserDaoImpl implements UserDao {
     public void changePassword(User user) {
         Session session = sessionFactory.openSession();
         session.update(user);
+        session.close();
+    }
+
+    @Override
+    public void updateAuthority(String emailId, String type) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Authorities.class);
+        Authorities authorities = (Authorities) criteria.add(Restrictions.eq("emailId", emailId))
+                .uniqueResult();
+        authorities.setAuthorities(type);
+        session.update(authorities);
+        session.flush();
         session.close();
     }
 

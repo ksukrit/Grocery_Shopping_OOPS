@@ -17,7 +17,12 @@ public interface UserService {
 
     User getUserByEmailId(String emailId);
 
-    void updatePassword(User user);
+    void updatePassword(String username,String newPassword);
 
 
+    String getAuthById(String userId);
+
+    String getAuthByEmailId(String emailId);
+
+    void updateAuthority(String emailId, String type);
 }

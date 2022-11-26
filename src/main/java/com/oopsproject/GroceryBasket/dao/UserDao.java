@@ -20,4 +20,6 @@ public interface UserDao {
     Authorities getUserAuthorities(String emailId);
 
     void changePassword(User user);
+
+    void updateAuthority(String emailId, String type);
 }

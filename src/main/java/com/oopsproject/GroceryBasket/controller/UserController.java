@@ -7,6 +7,7 @@ import com.oopsproject.GroceryBasket.service.CustomerService;
 import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +51,6 @@ public class UserController {
 
         c.setShippingAddress(shippingAddress);
 
-
         customerService.addCustomer(c);
     }
 
@@ -67,9 +67,30 @@ public class UserController {
         return userService.getUserByEmailId(user.getUsername()).getUserId();
     }
 
+    @RequestMapping("/getUserType/{userId}")
+    public String getUserType(@PathVariable(value = "userId") String userId){
+        return userService.getAuthById(userId);
+    }
+
+    @RequestMapping("/getUserTypeByEmail/{emailId}")
+    public String getUserTypeByEmail(@PathVariable(value = "emailId") String emailId){
+        return userService.getAuthByEmailId(emailId);
+    }
+
     @RequestMapping("/user/changePassword")
-    public void updatePassword(@RequestBody User user){
-        userService.updatePassword(user);
+    public void updatePassword(@RequestParam String newPassword){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userService.updatePassword(user.getUsername(),newPassword);
+    }
+
+    @RequestMapping("/admin/upgradeUser/{emailId}")
+    public String upgradeUser(@PathVariable(value="emailId") String emailId,@RequestParam String type){
+        if(!type.equals("ADMIN") || !type.equals("USER") || !type.equals("MANAGER")){
+            return "Invalid type";
+        }
+        userService.updateAuthority(emailId,type);
+
+        return "Successfully upgraded user";
     }
 
 
