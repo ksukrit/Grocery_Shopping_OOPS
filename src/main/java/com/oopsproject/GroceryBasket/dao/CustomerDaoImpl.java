@@ -2,13 +2,12 @@ package com.oopsproject.GroceryBasket.dao;
 
 import java.util.List;
 
-import com.oopsproject.GroceryBasket.model.Authorities;
-import com.oopsproject.GroceryBasket.model.Cart;
-import com.oopsproject.GroceryBasket.model.Customer;
-import com.oopsproject.GroceryBasket.model.User;
+import com.oopsproject.GroceryBasket.model.*;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -62,11 +61,11 @@ public class CustomerDaoImpl implements CustomerDao {
 
     public Customer getCustomerByemailId(String emailId) {
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("from User where emailId=?");
-        query.setString(0, emailId);
-        User users = (User)query.uniqueResult();
-        Customer customer = users.getCustomer();
-        return customer;
+        Criteria criteria = session.createCriteria(User.class);
+        User user = (User) criteria.add(Restrictions.eq("emailId", emailId))
+                .uniqueResult();
+        session.close();
+        return user.getCustomer();
     }
 
 
