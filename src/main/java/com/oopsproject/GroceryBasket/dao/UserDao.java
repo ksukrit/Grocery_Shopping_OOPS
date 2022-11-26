@@ -2,6 +2,7 @@ package com.oopsproject.GroceryBasket.dao;
 
 import java.util.List;
 
+import com.oopsproject.GroceryBasket.model.Authorities;
 import com.oopsproject.GroceryBasket.model.User;
 
 public interface UserDao {
@@ -13,4 +14,10 @@ public interface UserDao {
     void addUser(User user);
 
     User getUserById(String userId);
+
+    User getUserByEmailId(String emailId);
+
+    Authorities getUserAuthorities(String emailId);
+
+    void changePassword(User user,String newPassword);
 }

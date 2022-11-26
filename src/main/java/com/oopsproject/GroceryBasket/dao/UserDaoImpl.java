@@ -2,9 +2,12 @@ package com.oopsproject.GroceryBasket.dao;
 
 import java.util.List;
 
+import com.oopsproject.GroceryBasket.model.Authorities;
 import com.oopsproject.GroceryBasket.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,6 +50,29 @@ public class UserDaoImpl implements UserDao {
         User user = (User) session.get(User.class, userId);
         session.close();
         return user;
+    }
+
+    @Override
+    public User getUserByEmailId(String emailId) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(User.class);
+        User user = (User) criteria.add(Restrictions.eq("emailId", emailId))
+                .uniqueResult();
+        return user;
+    }
+
+    @Override
+    public Authorities getUserAuthorities(String emailId) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Authorities.class);
+        Authorities authorities = (Authorities) criteria.add(Restrictions.eq("emailId", emailId))
+                .uniqueResult();
+        return authorities;
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword) {
+
     }
 
 }

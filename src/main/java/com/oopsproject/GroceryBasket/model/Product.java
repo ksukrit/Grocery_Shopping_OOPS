@@ -52,15 +52,18 @@ public class Product implements Serializable {
     private double productPrice;
 
     @Column(name = "unit")
-    private String unitStock;
+    private Long unitStock;
 
     @Column(name = "product_link")
     private String productImage;
 
+    @Column(name= "delivery_date")
+    private Long deliveryDate;
+
 
     // Constructors
     public Product(String productId, String productCategory, String productDescription, String productManufacturer,
-                   String productName, double productPrice, String unitStock) {
+                   String productName, double productPrice, Long unitStock) {
         super();
         this.productId = productId;
         this.productCategory = productCategory;

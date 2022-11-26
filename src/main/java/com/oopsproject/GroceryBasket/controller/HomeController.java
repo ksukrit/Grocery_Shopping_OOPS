@@ -6,9 +6,9 @@ import com.oopsproject.GroceryBasket.service.CustomerService;
 import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -43,6 +43,44 @@ public class HomeController {
     @RequestMapping("/user/list")
     public List<User> getUserList(){
         return userService.getAllUsers();
+    }
+
+//    @RequestMapping("/login")
+//    public ModelAndView login() {
+//        System.out.println("Login page ");
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("login.html");
+//        return modelAndView;
+//    }
+//
+//    @PostMapping("/login")
+//    public void loginUser(@RequestBody String fullName){
+//        System.out.println(fullName);
+//    }
+
+
+    @PostMapping("/register")
+    public void addCustomer(@RequestBody MultiValueMap<String, String> userFormData){
+        Customer c = new Customer();
+        User u = new User();
+        u.setEmailId(userFormData.getFirst("username"));
+        u.setPassword(userFormData.getFirst("password"));
+        c.setUsers(u);
+        c.setFirstName(userFormData.getFirst("fname"));
+        c.setLastName(userFormData.getFirst("lname"));
+        c.setCustomerPhone(userFormData.getFirst("phoneNo"));
+
+        ShippingAddress shippingAddress = new ShippingAddress();
+        shippingAddress.setAddress(userFormData.getFirst("address"));
+        shippingAddress.setCity(userFormData.getFirst("city"));
+        shippingAddress.setZipcode(userFormData.getFirst("pincode"));
+        shippingAddress.setState(userFormData.getFirst("state"));
+        shippingAddress.setCountry(userFormData.getFirst("country"));
+
+        c.setShippingAddress(shippingAddress);
+
+
+        customerService.addCustomer(c);
     }
 
     @RequestMapping("/customer/list")

@@ -37,7 +37,7 @@ public class CustomerDaoImpl implements CustomerDao {
         customer.getUsers().setEnabled(true);
 
         Authorities authorities = new Authorities();
-        authorities.setAuthorities("ROLE_USER");
+        authorities.setAuthorities("USER");
         authorities.setEmailId(customer.getUsers().getEmailId());
 
         Cart cart = new Cart();
