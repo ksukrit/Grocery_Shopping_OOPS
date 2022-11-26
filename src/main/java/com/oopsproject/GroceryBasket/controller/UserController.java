@@ -93,5 +93,12 @@ public class UserController {
         return "Successfully upgraded user";
     }
 
+    @RequestMapping("/getCurrentBalance")
+    public String getBalance(){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user == null) return "";
+        return String.valueOf(customerService.getCustomerByemailId(user.getUsername()).getWalletBalance());
+    }
+
 
 }

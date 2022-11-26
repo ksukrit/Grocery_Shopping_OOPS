@@ -47,5 +47,7 @@ public class Customer implements Serializable {
     @JsonIgnore
     private Cart cart;
 
+    private double walletBalance;
+
 
 }
