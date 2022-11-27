@@ -12,4 +12,6 @@ public interface CartDao {
     Cart validate(String cartId) throws InvalidObjectException;
 
     void update(Cart cart);
+
+    void add(Cart c);
 }

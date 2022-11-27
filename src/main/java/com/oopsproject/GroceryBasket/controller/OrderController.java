@@ -28,6 +28,9 @@ public class OrderController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CartItemService cartItemService;
+
     @RequestMapping("/buyNow/{productId}")
     public String buyNow(@PathVariable("productId") String productId){
         CustomerOrder customerOrder = new CustomerOrder();
@@ -63,6 +66,11 @@ public class OrderController {
         customerOrder.setCart(c);
         customerOrder.setCustomer(customer);
         customerOrder.setShippingAddress(customer.getShippingAddress());
+
+        cartService.saveCart(c);
+
+        cartItemService.addCartItem(ci);
+
 
         customerOrderService.addCustomerOrder(customerOrder);
 

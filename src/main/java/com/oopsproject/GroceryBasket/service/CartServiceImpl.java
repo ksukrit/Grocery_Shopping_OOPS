@@ -24,4 +24,9 @@ public class CartServiceImpl implements CartService {
         cartDao.validate(cartId);
     }
 
+    @Override
+    public void saveCart(Cart c) {
+        cartDao.add(c);
+    }
+
 }

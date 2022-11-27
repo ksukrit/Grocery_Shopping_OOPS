@@ -56,4 +56,12 @@ public class CartDaoImpl implements CartDao {
         session.close();
     }
 
+    @Override
+    public void add(Cart c) {
+        Session session = sessionFactory.openSession();
+        session.saveOrUpdate(c);
+        session.flush();
+        session.close();
+    }
+
 }

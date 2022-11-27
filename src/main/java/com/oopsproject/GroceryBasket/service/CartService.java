@@ -11,4 +11,6 @@ public interface CartService {
     Cart getCartByCartId(String CartId);
 
     void validate(String cartId) throws InvalidObjectException;
+
+    void saveCart(Cart c);
 }
