@@ -20,12 +20,12 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/home","/login","/register","/registerPage","/about","/error").permitAll()
-                        .antMatchers("/customer/*").permitAll()
-                        .antMatchers("/user/*").hasAnyRole("ADMIN","MANAGER","USER")
-                        .antMatchers("/admin/*").hasAnyRole("ADMIN")
-                        .antMatchers("/manager/*").hasAnyRole("ADMIN","MANAGER")
-                        .antMatchers("/reports/admin/*").hasAnyRole("ADMIN")
-                        .antMatchers("/reports/user/*").hasAnyRole("ADMIN","MANAGER","USER")
+                        .antMatchers("/customer/**").permitAll()
+                        .antMatchers("/user/**").hasAnyRole(new String[]{"ADMIN", "MANAGER", "USER"})
+                        .antMatchers("/admin/**").hasAnyRole(new String[]{"ADMIN"})
+                        .antMatchers("/manager/**").hasAnyRole(new String[]{"ADMIN", "MANAGER"})
+                        .antMatchers("/reports/admin/**").hasAnyRole(new String[]{"ADMIN"})
+                        .antMatchers("/reports/user/**").hasAnyRole(new String[]{"ADMIN", "MANAGER", "USER"})
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
