@@ -30,6 +30,7 @@ public class UserDaoImpl implements UserDao {
     public void deleteUser(String userId) {
         Session session = sessionFactory.openSession();
         User user = (User) session.get(User.class, userId);
+        user.setEnabled(false);
         session.saveOrUpdate(user);
         session.flush();
         session.close();// close the session

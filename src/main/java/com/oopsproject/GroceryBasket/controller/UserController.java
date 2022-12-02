@@ -1,6 +1,7 @@
 package com.oopsproject.GroceryBasket.controller;
 
 import com.oopsproject.GroceryBasket.model.Customer;
+import com.oopsproject.GroceryBasket.model.ResponseObject;
 import com.oopsproject.GroceryBasket.model.ShippingAddress;
 import com.oopsproject.GroceryBasket.model.User;
 import com.oopsproject.GroceryBasket.service.CustomerService;
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void addCustomer(@RequestBody MultiValueMap<String, String> userFormData){
+    public ResponseObject addCustomer(@RequestParam MultiValueMap<String, String> userFormData){
         Customer c = new Customer();
         User u = new User();
         u.setEmailId(userFormData.getFirst("username"));
@@ -52,6 +53,8 @@ public class UserController {
         c.setShippingAddress(shippingAddress);
 
         customerService.addCustomer(c);
+
+        return new ResponseObject(200,"USER_CREATED","User created successfully " + c.getUsers().getUserId());
     }
 
     // Returns the user id for a given email id
@@ -116,6 +119,12 @@ public class UserController {
     public void deleteUser(){
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userService.deleteUser(userService.getUserByEmailId(user.getUsername()).getUserId());
+    }
+
+    @RequestMapping("/admin/deleteUser/{userId}")
+    public ResponseObject deleteUser(@PathVariable(value="userId") String userId){
+        userService.deleteUser(userId);
+        return new ResponseObject(200,"User Deleted","User " + userId + " Deleted");
     }
 
 }
