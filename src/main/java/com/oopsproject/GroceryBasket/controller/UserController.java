@@ -51,6 +51,7 @@ public class UserController {
         shippingAddress.setCountry(userFormData.getFirst("country"));
 
         c.setShippingAddress(shippingAddress);
+        c.setWalletBalance(1000);
 
         customerService.addCustomer(c);
 
