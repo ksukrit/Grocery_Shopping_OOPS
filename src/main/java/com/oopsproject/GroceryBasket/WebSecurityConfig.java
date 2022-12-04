@@ -17,8 +17,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((requests) -> requests
+        http.cors().and().authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/home","/login","/register","/registerPage","/about","/error").permitAll()
                         .antMatchers("/customer/**").permitAll()
                         .antMatchers("/user/**").hasAnyRole(new String[]{"ADMIN", "MANAGER", "USER"})
