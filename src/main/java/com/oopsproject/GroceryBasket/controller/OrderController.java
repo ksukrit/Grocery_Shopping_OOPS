@@ -150,6 +150,14 @@ public class OrderController {
         return customerOrderService.getCustomerOrderByCustomerId(customerId);
     }
 
+    @RequestMapping("/order/user/currentOrder")
+    public List<CustomerOrder> getOrderCurrentCustomer(){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user == null) return new ArrayList<>();
+        String customerId = customerService.getCustomerByemailId(user.getUsername()).getCustomerId();
+        return customerOrderService.getCustomerOrderByCustomerId(customerId);
+    }
+
     @RequestMapping("/order/list/all")
     public List<CustomerOrder> getAllOrders(){
         return customerOrderService.getAllOrders();

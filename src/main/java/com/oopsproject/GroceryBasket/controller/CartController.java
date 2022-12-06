@@ -49,7 +49,7 @@ public class CartController {
         String emailId = user.getUsername();
         Customer customer = customerService.getCustomerByemailId(emailId);
         Cart c = customer.getCart();
-//        c.setTotalPrice(getCartTotal(c));
+        c.setTotalPrice(getCartTotal(c));
         return c;
     }
 

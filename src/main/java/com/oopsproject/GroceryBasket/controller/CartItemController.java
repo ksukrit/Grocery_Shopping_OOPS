@@ -1,9 +1,6 @@
 package com.oopsproject.GroceryBasket.controller;
 
-import com.oopsproject.GroceryBasket.model.Cart;
-import com.oopsproject.GroceryBasket.model.CartItem;
-import com.oopsproject.GroceryBasket.model.Customer;
-import com.oopsproject.GroceryBasket.model.Product;
+import com.oopsproject.GroceryBasket.model.*;
 import com.oopsproject.GroceryBasket.service.CartItemService;
 import com.oopsproject.GroceryBasket.service.CartService;
 import com.oopsproject.GroceryBasket.service.CustomerService;
@@ -36,7 +33,7 @@ public class CartItemController {
 
     @RequestMapping("/cart/add/{productId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void addCartItem(@PathVariable(value = "productId") String productId,@RequestParam(required = false,value = "quantity") String quantity) {
+    public ResponseObject addCartItem(@PathVariable(value = "productId") String productId, @RequestParam(required = false,value = "quantity") String quantity) {
         org.springframework.security.core.userdetails.User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String emailId = user.getUsername();
         System.out.println(emailId);
@@ -58,7 +55,8 @@ public class CartItemController {
                 cartItem.setQuality(cartItem.getQuality() + itemQ);
                 cartItem.setPrice(cartItem.getQuality() * cartItem.getProduct().getProductPrice());
                 cartItemService.addCartItem(cartItem);
-                return;
+                return new ResponseObject(200,"ADDED_SUCCESSFULLY","Added");
+
             }
         }
         CartItem cartItem = new CartItem();
@@ -71,8 +69,10 @@ public class CartItemController {
         try {
             cartService.validate(cart.getCartId());
         } catch (InvalidObjectException e) {
-            throw new RuntimeException(e);
+            return new ResponseObject(500,"FAILED_TO_ADD","Failed to add product to cart");
         }
+        return new ResponseObject(200,"ADDED_SUCCESSFULLY","Added");
+
     }
 
     @RequestMapping("/cart/removeCartItem/{cartItemId}")

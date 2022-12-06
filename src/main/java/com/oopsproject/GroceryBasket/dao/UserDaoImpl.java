@@ -11,6 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -21,8 +26,13 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
         // TODO: Change this to non deprecated library
-        List<User> users=	 session.createCriteria(User.class).list();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> rootEntry = cq.from(User.class);
+        CriteriaQuery<User> all = cq.select(rootEntry);
 
+        TypedQuery<User> allQuery = session.createQuery(all);
+        List<User> users = allQuery.getResultList();
         session.close();
         return users;
     }
@@ -76,7 +86,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void changePassword(User user) {
         Session session = sessionFactory.openSession();
-        session.update(user);
+        System.out.println(user.getPassword());
+        session.saveOrUpdate(user);
+        session.flush();
         session.close();
     }
 
