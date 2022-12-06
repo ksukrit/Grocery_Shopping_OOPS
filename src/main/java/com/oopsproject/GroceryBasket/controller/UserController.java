@@ -105,14 +105,14 @@ public class UserController {
     }
 
     @RequestMapping("/addToWallet")
-    public String updateWallet(@RequestParam String amount){
+    public ResponseObject updateWallet(@RequestParam String amount){
         double amt = Double.parseDouble(amount);
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(user == null) return "";
+        if(user == null || amt < 0) return new ResponseObject(404,"USER_NOT_FOUND","USER NOT FOUND");
         Customer customer = customerService.getCustomerByemailId(user.getUsername());
         customer.setWalletBalance(customer.getWalletBalance()+amt);
         customerService.updateCustomer(customer);
-        return "Successfully added " + amount;
+        return new ResponseObject(200,"ADDED_MONEY","SUCCESSFULLY ADDED " + amount);
     }
 
 
