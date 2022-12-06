@@ -12,6 +12,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PreUpdate;
 import java.util.List;
 
 @RestController
@@ -126,6 +127,18 @@ public class UserController {
     public ResponseObject deleteUser(@PathVariable(value="userId") String userId){
         userService.deleteUser(userId);
         return new ResponseObject(200,"User Deleted","User " + userId + " Deleted");
+    }
+
+    @RequestMapping("/user/currentCustomerDetails")
+    public Customer getCurrentCustDetails(){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customerService.getCustomerByemailId(user.getUsername());
+    }
+
+    @RequestMapping("/user/shippingDetails")
+    public ShippingAddress getCurrentCustomerShippingDetails(){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customerService.getCustomerByemailId(user.getUsername()).getShippingAddress();
     }
 
 }

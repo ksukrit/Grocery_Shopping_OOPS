@@ -46,7 +46,7 @@ public class ProductController {
     @RequestMapping("/manager/delete/{productId}")
     public String deleteProduct(@PathVariable(value = "productId") String productId) {
         productService.deleteProduct(productId);
-        return "redirect:/getAllProducts";
+        return "Removed";
     }
 
     @RequestMapping(value = "/manager/product/addProduct", method = RequestMethod.GET)
@@ -64,7 +64,7 @@ public class ProductController {
         if (result.hasErrors())
             return "addProduct";
         productService.addProduct(product);
-        return "redirect:/getAllProducts";
+        return "Added";
     }
 
     @RequestMapping(value = "/manager/product/editProduct/{productId}")
@@ -76,7 +76,7 @@ public class ProductController {
     @RequestMapping(value = "/manager/product/editProduct", method = RequestMethod.POST)
     public String editProduct(@RequestBody Product product) {
         productService.editProduct(product);
-        return "redirect:/getAllProducts";
+        return "Edited";
     }
 
 }
