@@ -25,7 +25,6 @@ public class UserDaoImpl implements UserDao {
 
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
-        // TODO: Change this to non deprecated library
         CriteriaBuilder cb = session.getCriteriaBuilder();
         javax.persistence.criteria.CriteriaQuery<User> cq = cb.createQuery(User.class);
         Root<User> rootEntry = cq.from(User.class);
@@ -102,6 +101,20 @@ public class UserDaoImpl implements UserDao {
         session.update(authorities);
         session.flush();
         session.close();
+    }
+
+    @Override
+    public List<Authorities> getUserAuthorities() {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery<Authorities> cq = cb.createQuery(Authorities.class);
+        Root<Authorities> rootEntry = cq.from(Authorities.class);
+        CriteriaQuery<Authorities> all = cq.select(rootEntry);
+
+        TypedQuery<Authorities> allQuery = session.createQuery(all);
+        List<Authorities> authorities = allQuery.getResultList();
+        session.close();
+        return authorities;
     }
 
 }

@@ -1,9 +1,6 @@
 package com.oopsproject.GroceryBasket.controller;
 
-import com.oopsproject.GroceryBasket.model.Customer;
-import com.oopsproject.GroceryBasket.model.ResponseObject;
-import com.oopsproject.GroceryBasket.model.ShippingAddress;
-import com.oopsproject.GroceryBasket.model.User;
+import com.oopsproject.GroceryBasket.model.*;
 import com.oopsproject.GroceryBasket.service.CustomerService;
 import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,11 @@ public class UserController {
     @RequestMapping("/customer/list")
     public List<Customer> getCustomerList(){
         return customerService.getAllCustomers();
+    }
+
+    @RequestMapping("/user/list/authorities")
+    public List<Authorities> getUserAuthorities(){
+        return userService.getAuthorities();
     }
 
     @PostMapping("/register")
@@ -117,16 +119,23 @@ public class UserController {
     }
 
 
-    @RequestMapping("/admin/deleteUser")
-    public void deleteUser(){
+    @RequestMapping("/deleteUser")
+    public ResponseObject deleteUser(){
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userService.deleteUser(userService.getUserByEmailId(user.getUsername()).getUserId());
+        return new ResponseObject(200,"User Deleted","Redirect to login");
     }
 
     @RequestMapping("/admin/deleteUser/{userId}")
     public ResponseObject deleteUser(@PathVariable(value="userId") String userId){
         userService.deleteUser(userId);
         return new ResponseObject(200,"User Deleted","User " + userId + " Deleted");
+    }
+
+    @RequestMapping("/admin/deleteUserByEmail/{emailId}")
+    public ResponseObject deleteUserByEmail(@PathVariable(value="emailId") String emailId){
+        userService.deleteUser(userService.getUserByEmailId(emailId).getUserId());
+        return new ResponseObject(200,"User Deleted","User " + emailId + " Deleted");
     }
 
     @RequestMapping("/user/currentCustomerDetails")

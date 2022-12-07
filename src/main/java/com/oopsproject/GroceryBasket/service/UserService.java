@@ -3,6 +3,7 @@ package com.oopsproject.GroceryBasket.service;
 
 import java.util.List;
 
+import com.oopsproject.GroceryBasket.model.Authorities;
 import com.oopsproject.GroceryBasket.model.User;
 
 public interface UserService {
@@ -25,4 +26,6 @@ public interface UserService {
     String getAuthByEmailId(String emailId);
 
     void updateAuthority(String emailId, String type);
+
+    List<Authorities> getAuthorities();
 }

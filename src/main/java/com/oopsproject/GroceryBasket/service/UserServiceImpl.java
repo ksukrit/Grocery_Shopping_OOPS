@@ -3,6 +3,7 @@ package com.oopsproject.GroceryBasket.service;
 import java.util.List;
 
 import com.oopsproject.GroceryBasket.dao.UserDao;
+import com.oopsproject.GroceryBasket.model.Authorities;
 import com.oopsproject.GroceryBasket.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateAuthority(String emailId, String type) {
         userDao.updateAuthority(emailId,type);
+    }
+
+    @Override
+    public List<Authorities> getAuthorities() {
+        return userDao.getUserAuthorities();
     }
 
 

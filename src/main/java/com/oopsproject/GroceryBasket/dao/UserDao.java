@@ -22,4 +22,6 @@ public interface UserDao {
     void changePassword(User user);
 
     void updateAuthority(String emailId, String type);
+
+    List<Authorities> getUserAuthorities();
 }
