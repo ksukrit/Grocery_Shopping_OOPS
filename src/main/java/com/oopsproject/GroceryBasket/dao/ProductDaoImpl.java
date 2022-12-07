@@ -51,7 +51,7 @@ public class ProductDaoImpl implements ProductDao {
     public List<Product> getProductByName(String name) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Product.class);
-        List<Product> products = criteria.add(Restrictions.ilike("productName", name +"%")).list();
+        List<Product> products = criteria.add(Restrictions.ilike("productName", "%" + name +"%")).list();
         session.close();
         return products;
     }
@@ -95,7 +95,7 @@ public class ProductDaoImpl implements ProductDao {
     public List<Product> getProductByCategory(String cat) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Product.class);
-        List<Product> products = criteria.add(Restrictions.like("productCategory", cat)).list();
+        List<Product> products = criteria.add(Restrictions.like("productCategory", "%" + cat + "%")).list();
         session.close();
         return products;
     }

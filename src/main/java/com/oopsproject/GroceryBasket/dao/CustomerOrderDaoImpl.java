@@ -55,4 +55,13 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
         List<CustomerOrder> c = new ArrayList<>(s);
         return c;
     }
+
+    @Override
+    public List<CustomerOrder> getOrderInRange(Long fromTime, Long toTime) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(CustomerOrder.class);
+        List<CustomerOrder> customerOrders = criteria.add(Restrictions.ge("orderDate",fromTime)).add(Restrictions.and(Restrictions.le("orderDate",toTime))).list();
+        session.close();
+        return customerOrders;
+    }
 }

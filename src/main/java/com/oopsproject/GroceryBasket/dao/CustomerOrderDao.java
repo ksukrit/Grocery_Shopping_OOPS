@@ -14,4 +14,6 @@ public interface CustomerOrderDao {
     List<CustomerOrder> getCustomerOrderByCustomerId(String customerId);
 
     List<CustomerOrder> getAllOrders();
+
+    List<CustomerOrder> getOrderInRange(Long fromTime, Long toTime);
 }

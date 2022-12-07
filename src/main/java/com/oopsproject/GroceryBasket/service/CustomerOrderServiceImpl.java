@@ -50,4 +50,9 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
         return customerOrderDao.getCustomerOrderByCustomerId(customerId);
     }
 
+    @Override
+    public List<CustomerOrder> getCustomerOrderInRange(Long fromTime, Long toTime) {
+        return customerOrderDao.getOrderInRange(fromTime,toTime);
+    }
+
 }

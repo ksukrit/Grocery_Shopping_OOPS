@@ -15,4 +15,6 @@ public interface CustomerOrderService {
     List<CustomerOrder> getAllOrders();
 
     List<CustomerOrder> getCustomerOrderByCustomerId(String customerId);
+
+    List<CustomerOrder> getCustomerOrderInRange(Long fromTime, Long toTime);
 }

@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -48,6 +49,12 @@ public class ReportsController {
         if(user == null) return new ArrayList<>();
         Customer customer = customerService.getCustomerByemailId(user.getUsername());
         return customerOrderService.getCustomerOrderByCustomerId(customer.getCustomerId());
+    }
+
+    @RequestMapping("/reports/admin/customerOrderOnData")
+    public List<CustomerOrder> getOrdersOnDate( @RequestParam(required = true, value = "fromTime") Long fromTime,@RequestParam(required = true, value = "toTime") Long toTime ){
+       System.out.println(fromTime + " " + toTime);
+        return customerOrderService.getCustomerOrderInRange(fromTime,toTime);
     }
 
 
