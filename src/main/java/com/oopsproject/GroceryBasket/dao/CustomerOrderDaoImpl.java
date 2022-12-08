@@ -44,6 +44,7 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
         List<CustomerOrder> customerOrderList = criteria.add(Restrictions.eq("customer.customerId",customerId)).list();
         Set<CustomerOrder> s = new HashSet<>(customerOrderList);
         List<CustomerOrder> c = new ArrayList<>(s);
+        session.close();
         return c;
     }
 
@@ -53,6 +54,7 @@ public class CustomerOrderDaoImpl implements CustomerOrderDao {
         List<CustomerOrder> customerOrderList = session.createCriteria(CustomerOrder.class).list();
         Set<CustomerOrder> s = new HashSet<>(customerOrderList);
         List<CustomerOrder> c = new ArrayList<>(s);
+        session.close();
         return c;
     }
 

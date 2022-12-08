@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -80,6 +84,14 @@ public class OrderController {
 
         customerService.updateCustomer(customer);
 
+        if(customer.getUsers() != null && customer.getUsers().getUserId() != null){
+            try {
+                EmailService.sendEmail("shubham.priyank595@gmail.com",customer.getUsers().getEmailId(),"Order placed successfully " + customerOrder.getCustomerOrderId() + " \n Total Amount " + customerOrder.getCart().getTotalPrice() + "\n Expected Delivery Time : 2 Days " + "\n No of Items : " + customerOrder.getCart().getCartItem().size(),"[IMP] GroceryBasket Order Placed ID :" + customerOrder.getCustomerOrderId());
+            } catch (Exception e){
+                System.out.println("Failed to send email");
+            }
+        }
+
         return "Ordered Successfully " + customerOrder.getCustomerOrderId();
     }
 
@@ -135,6 +147,14 @@ public class OrderController {
         customer.setWalletBalance(customer.getWalletBalance() - cart.getTotalPrice());
 
         customerService.updateCustomer(customer);
+
+        if(customer.getUsers() != null && customer.getUsers().getUserId() != null){
+            try {
+                EmailService.sendEmail("shubham.priyank595@gmail.com",customer.getUsers().getEmailId(),"Order placed successfully " + customerOrder.getCustomerOrderId() + " \n Total Amount " + customerOrder.getCart().getTotalPrice() + "\n Expected Delivery Time : 2 Days " + "\n No of Items : " + customerOrder.getCart().getCartItem().size(),"[IMP] GroceryBasket Order Placed ID :" + customerOrder.getCustomerOrderId());
+            } catch (Exception e){
+                System.out.println("Failed to send email");
+            }
+        }
 
         return "Ordered Successfully " + customerOrder.getCustomerOrderId();
     }

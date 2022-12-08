@@ -2,6 +2,7 @@ package com.oopsproject.GroceryBasket.controller;
 
 import com.oopsproject.GroceryBasket.model.*;
 import com.oopsproject.GroceryBasket.service.CustomerService;
+import com.oopsproject.GroceryBasket.service.EmailService;
 import com.oopsproject.GroceryBasket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,7 +10,10 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.persistence.PreUpdate;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
@@ -148,6 +152,20 @@ public class UserController {
     public ShippingAddress getCurrentCustomerShippingDetails(){
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return customerService.getCustomerByemailId(user.getUsername()).getShippingAddress();
+    }
+
+    @RequestMapping("/sendNewPassword/{emailId}")
+    public ResponseObject resetPassword(@PathVariable(value = "emailId") String emailId){
+        String password = userService.getUserByEmailId(emailId).getPassword();
+        try {
+            EmailService.sendEmail("shubham.priyank595@gmail.com",emailId,"Updated \"" + password + "\"","GroceryBasket [IMP]");
+        } catch (Exception ex) {
+            System.err.println(ex);
+            return new ResponseObject(500,"Failed to email user","Error sending new password");
+        }
+
+        return new ResponseObject(200,"New password set successfully","Password set");
+
     }
 
 }

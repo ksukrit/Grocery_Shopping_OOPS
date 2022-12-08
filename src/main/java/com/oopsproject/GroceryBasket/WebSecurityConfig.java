@@ -18,12 +18,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/home","/login","/register","/registerPage","/about","/error","/getAllProducts","/getProductById/**","/getProductListByName","/getProductListByCategory","/getFeaturedProducts").permitAll()
-                        .antMatchers("/customer/**").permitAll()
+                        .antMatchers("/", "/home","/login","/register","/registerPage","/about","/error","/getAllProducts","/getProductById/**","/getProductListByName","/getProductListByCategory","/getFeaturedProducts","/sendNewPassword/**").permitAll()
+                        .antMatchers("/customer/**").hasAnyRole(new String[]{"ADMIN", "MANAGER"})
                         .antMatchers("/user/**").hasAnyRole(new String[]{"ADMIN", "MANAGER", "USER"})
                         .antMatchers("/admin/**").hasAnyRole(new String[]{"ADMIN"})
                         .antMatchers("/manager/**").hasAnyRole(new String[]{"ADMIN", "MANAGER"})
                         .antMatchers("/reports/admin/**").hasAnyRole(new String[]{"ADMIN"})
+                        .antMatchers("/reports/manager/**").hasAnyRole(new String[]{"ADMIN", "MANAGER"})
                         .antMatchers("/reports/user/**").hasAnyRole(new String[]{"ADMIN", "MANAGER", "USER"})
                         .anyRequest().authenticated()
                 )
